@@ -17,6 +17,9 @@ public:
     QLineF createLine(QLineF line, float mid, float angle, float len);
     ~Widget();
 
+private slots:
+    void on_angle1Slider_valueChanged(int value);
+
 private:
     Ui::Widget *ui;
 };

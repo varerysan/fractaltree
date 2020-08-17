@@ -13,7 +13,8 @@ class Widget : public QWidget {
 public:
     Widget(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent *event) override;
-    void drawBranch(QPainter &p, QPointF p1, QPointF p2);
+    void drawBranch(QPainter &p, QLineF line);
+    QLineF createLine(QLineF line, float mid, float angle, float len);
     ~Widget();
 
 private:

@@ -7,12 +7,13 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
 
-class Widget : public QWidget
-{
+class Widget : public QWidget {
     Q_OBJECT
 
 public:
     Widget(QWidget *parent = nullptr);
+    void paintEvent(QPaintEvent *event) override;
+    void drawBranch(QPainter &p, QPointF p1, QPointF p2);
     ~Widget();
 
 private:

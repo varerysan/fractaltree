@@ -7,6 +7,7 @@ Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget) {
     ui->setupUi(this);
+    ui->angle1Slider->setValue(12);
 }
 
 void Widget::paintEvent(QPaintEvent *) {
@@ -14,17 +15,31 @@ void Widget::paintEvent(QPaintEvent *) {
     drawBranch(p, QLineF(QPointF(300, 500), QPointF(310, 300)));
 }
 
-QLineF Widget::createLine(QLineF line, float mid, float angle, float len) {
+QPointF Widget::rotatePoint(QPointF R, float angle) {
+    float x1 = R.x();
+    float y1 = R.y();
+
+    float x2 = x1 * cos(angle) - y1 * sin(angle);
+    float y2 = x1 * sin(angle) + y1 * cos(angle);
+
+    auto R2 = QPointF(x2, y2);
+    return R2;
+}
+
+QLineF Widget::createLine(QLineF lineAB, float mid, float angle, float len) {
     //
-    auto vect = line.p2() - line.p1();
-    auto midP = line.pointAt(mid);
-    auto vect1 = vect * len;
+    auto A = lineAB.p1();
+    auto B = lineAB.p2();
 
-    float x = vect1.x() * cos(angle) - vect1.y() * sin(angle);
-    float y = vect1.x() * sin(angle) + vect1.y() * cos(angle);
-    auto resP1 = midP + QPointF(x, y);
+    auto R1 = B - A;
+    auto R2 = rotatePoint(R1, angle);
 
-    return QLineF(midP, resP1);
+    auto P = R2 * len;
+
+    auto M = lineAB.pointAt(mid);
+
+    auto resP1 = M + P;
+    return QLineF(M, resP1);
 }
 
 void Widget::drawBranch(QPainter &p, QLineF line) {
@@ -56,7 +71,7 @@ Widget::~Widget() {
 }
 
 
-void Widget::on_angle1Slider_valueChanged(int value)
+void Widget::on_angle1Slider_valueChanged(int)
 {
     update();
 }

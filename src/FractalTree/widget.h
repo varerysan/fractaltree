@@ -15,6 +15,7 @@ public:
     void paintEvent(QPaintEvent *event) override;
     void drawBranch(QPainter &p, QLineF line);
     QLineF createLine(QLineF line, float mid, float angle, float len);
+    QPointF rotatePoint(QPointF R1, float angle);
     ~Widget();
 
 private slots:
